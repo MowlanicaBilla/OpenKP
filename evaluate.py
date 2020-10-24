@@ -34,7 +34,7 @@ def dedup(kp_list):
         dedupset.add(kp)
     return kp_list_dedup
 
-def get_score_full(candidates, references, maxDepth = 5):
+def get_score_full(candidates, references, maxDepth = 30):
     precision = []
     recall = []
     reference_set = set(dedup(references))
@@ -51,12 +51,12 @@ def get_score_full(candidates, references, maxDepth = 5):
     return precision, recall
         
 def evaluate(candidates, references, urls):
-    precision_scores, recall_scores, f1_scores = {1:[], 3:[], 5:[]}, {1:[], 3:[], 5:[]}, {1:[], 3:[], 5:[]}
+    precision_scores, recall_scores, f1_scores = {1:[], 3:[], 5:[],10:[],30:[]},    {1:[], 3:[], 5:[],10:[],30:[]},    {1:[], 3:[], 5:[],10:[],30:[]}
     for url in urls:
         candidate = remove_empty(candidates[url]['KeyPhrases'])
         reference = remove_empty(references[url]['KeyPhrases'])
         p, r = get_score_full(candidate, reference) 
-        for i in [1,3,5]:
+        for i in [1,3,5,10,30]:
             precision = p[i-1]
             recall = r[i-1]
             if precision + recall > 0:
